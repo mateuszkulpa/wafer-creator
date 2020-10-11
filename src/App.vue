@@ -3,9 +3,14 @@
   <hr>
   <wafer-canvas :image="image" @change="onCanvasChanged" />
   <hr>
-  <input type="number" v-model="size">
+  rozmiar 
+  <input type="number" v-model.number="size">
+  <br/>
+  margines góra
+  <input type="number" v-model.number="marginTop"> <br>
+
   <button @click="generatePdf" :disabled="finalImageBase64 === null">
-    pdf
+    Generuj pdf
   </button>
 </template>
 
@@ -33,6 +38,7 @@ export default defineComponent({
   components: { WaferCanvas },
   setup() {
     const size = ref(200);
+    const marginTop = ref(30);
     const image = ref<HTMLImageElement | null>(null);
     const finalImageBase64 = ref<string | null>(null);
 
@@ -46,7 +52,14 @@ export default defineComponent({
 
     const generatePdf = async () => {
       const doc = new jsPDF();
-      doc.addImage(finalImageBase64.value, "JPG", 5, 30, 200, 200);
+      doc.addImage(
+        finalImageBase64.value,
+        "JPG",
+        5,
+        marginTop.value,
+        size.value,
+        size.value
+      );
       doc.save(new Date().getTime() + ".pdf");
     };
 
@@ -58,6 +71,7 @@ export default defineComponent({
       finalImageBase64,
       onCanvasChanged,
       image,
+      marginTop,
       size,
       onUpload,
       generatePdf,

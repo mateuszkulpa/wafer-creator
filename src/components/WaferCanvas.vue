@@ -2,21 +2,20 @@
 <div>
   <canvas id="c" :width="CANVAS_SIZE" :height="CANVAS_SIZE" style="border: 1px solid black;"></canvas>
   <div>
-      <input type="text" placeholder="text" v-model="textOptions.text"> <br />
-      <input type="number"  v-model="textOptions.size"> <br />
-      <input type="color"  v-model="textOptions.color"> <br />
-      <select v-model.number="textOptions.fontWeight">
+      tekst <input type="text" placeholder="text" v-model="textOptions.text"> <br />
+      rozmiar <input type="number"  v-model="textOptions.size"> <br />
+      kolor <input type="color"  v-model="textOptions.color"> <br />
+      grubość <select v-model.number="textOptions.fontWeight">
           <option :value="200">200</option>
           <option :value="300">300</option>
           <option :value="400">400</option>
           <option :value="500">500</option>
           <option :value="500">600</option>
           <option :value="700">700</option>
-      </select>
-      <select v-model="textOptions.fontFamily">
+      </select> <br>
+      czcionka <select v-model="textOptions.fontFamily">
           <option v-for="font in FONTS" :key="font" :value="font">{{ font }}</option>
       </select>
-    <button @click="renderCanvas">add text</button>
   </div>
 </div>
 </template>
@@ -42,11 +41,12 @@ export default defineComponent({
     let canvas: fabric.Canvas | null = null;
     let textbox: fabric.Textbox | null;
 
+    const emitChanges = _.debounce(() => {
+      emit("change", canvas.toDataURL());
+    }, 500);
+
     const initializeCanvas = () => {
       canvas = new fabric.Canvas("c");
-      const emitChanges = _.debounce(() => {
-        emit("change", canvas.toDataURL());
-      }, 500);
 
       canvas.on("object:added", emitChanges);
       canvas.on("object:removed", emitChanges);
@@ -58,7 +58,7 @@ export default defineComponent({
     });
 
     const textOptions = reactive({
-      text: "Wszystkiego Najlepszego",
+      text: "100 Lat",
       size: 32,
       color: "#000",
       fontWeight: 300,
@@ -77,19 +77,29 @@ export default defineComponent({
     };
 
     const loadText = () => {
-      const oldTop = textbox?.top || 0;
-      const oldLeft = textbox?.left || 0;
-      textbox = new fabric.Textbox(textOptions.text, {
-        top: oldTop,
-        left: oldLeft,
-        dynamicMinWidth: 1,
+      if (!textbox) {
+        textbox = new fabric.Textbox(textOptions.text, {
+          top: CANVAS_SIZE - 100,
+          left: CANVAS_SIZE / 2 - CANVAS_SIZE / 8,
+          width: CANVAS_SIZE / 4,
+        });
+        canvas.add(textbox).setActiveObject(textbox);
+
+        textbox.on("changed", () => {
+          textOptions.text = textbox.text;
+        });
+      }
+
+      textbox.set({
+        text: textOptions.text,
         fontSize: textOptions.size,
         fill: textOptions.color,
         fontWeight: textOptions.fontWeight,
         fontFamily: textOptions.fontFamily,
       });
 
-      canvas.add(textbox).setActiveObject(textbox);
+      canvas.renderAll();
+      emitChanges();
     };
 
     watch(
@@ -101,7 +111,6 @@ export default defineComponent({
     );
 
     watch(textOptions, () => {
-      loadImage(props.image);
       loadText();
     });
 
@@ -111,10 +120,6 @@ export default defineComponent({
         loadFont(newFontFamily);
       }
     );
-
-    const renderCanvas = () => {
-      const result = canvas.toDataURL();
-    };
 
     const loadFont = (font: string) => {
       var myfont = new FontFaceObserver(font);
@@ -130,7 +135,6 @@ export default defineComponent({
     };
 
     return {
-      renderCanvas,
       CANVAS_SIZE,
       FONTS,
       textOptions,
