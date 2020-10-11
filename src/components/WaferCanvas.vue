@@ -39,6 +39,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     let canvas: fabric.Canvas | null = null;
+    let image: farbic.Image | null;
     let textbox: fabric.Textbox | null;
 
     const emitChanges = _.debounce(() => {
@@ -66,9 +67,11 @@ export default defineComponent({
     });
 
     const loadImage = (newImage: HTMLImageElement) => {
-      canvas.clear();
-      if (!props.image) return;
-      var image = new fabric.Image(newImage, {
+      if (image) {
+        canvas.remove(image);
+      }
+      
+      image = new fabric.Image(newImage, {
         scaleX: CANVAS_SIZE / newImage.width,
         scaleY: CANVAS_SIZE / newImage.height,
         selectable: false,
