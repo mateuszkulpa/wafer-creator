@@ -14,7 +14,7 @@
           <option :value="700">700</option>
       </select> <br>
       czcionka <select v-model="textOptions.fontFamily">
-          <option v-for="font in FONTS" :key="font" :value="font">{{ font }}</option>
+          <option v-for="font in fonts" :key="font" :value="font">{{ font }}</option>
       </select>
   </div>
 </div>
@@ -22,12 +22,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, PropType, watch, reactive } from "vue";
 import fabricModule from "fabric";
-import FontFaceObserver from "fontfaceobserver";
 import _ from "lodash";
 const fabric = fabricModule.fabric;
-
+import { fonts } from "../fonts";
 const CANVAS_SIZE = 500;
-const FONTS = ["Pacifico", "VT323", "Quicksand", "Inconsolata"];
 
 export default defineComponent({
   props: {
@@ -63,14 +61,14 @@ export default defineComponent({
       size: 32,
       color: "#000",
       fontWeight: 300,
-      fontFamily: FONTS[0],
+      fontFamily: fonts[0],
     });
 
     const loadImage = (newImage: HTMLImageElement) => {
       if (image) {
         canvas.remove(image);
       }
-      
+
       image = new fabric.Image(newImage, {
         scaleX: CANVAS_SIZE / newImage.width,
         scaleY: CANVAS_SIZE / newImage.height,
@@ -116,30 +114,11 @@ export default defineComponent({
     watch(textOptions, () => {
       loadText();
     });
-
-    watch(
-      () => textOptions.fontFamily,
-      (newFontFamily) => {
-        loadFont(newFontFamily);
-      }
-    );
-
-    const loadFont = (font: string) => {
-      var myfont = new FontFaceObserver(font);
-      myfont
-        .load()
-        .then(function () {
-          canvas.getActiveObject().set("fontFamily", font);
-          canvas.requestRenderAll();
-        })
-        .catch(function (e) {
-          alert("font loading failed " + font);
-        });
-    };
+    
 
     return {
       CANVAS_SIZE,
-      FONTS,
+      fonts,
       textOptions,
     };
   },
