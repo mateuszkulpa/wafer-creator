@@ -1,10 +1,10 @@
 <template>
-<div>
+<div style="display: flex; ">
   <canvas id="c" :width="CANVAS_SIZE" :height="CANVAS_SIZE" style="border: 1px solid black;"></canvas>
-  <div>
-      tekst <input type="text" placeholder="text" v-model="textOptions.text"> <br />
-      rozmiar <input type="number"  v-model="textOptions.size"> <br />
-      kolor <input type="color"  v-model="textOptions.color"> <br />
+  <div style="padding: 0 2rem;">
+      tekst <input type="text" placeholder="text" v-model="textOptions.text"> 
+      rozmiar <input type="number"  v-model="textOptions.size"> 
+      kolor <input type="color"  v-model="textOptions.color"> 
       grubość <select v-model.number="textOptions.fontWeight">
           <option :value="200">200</option>
           <option :value="300">300</option>
@@ -12,7 +12,7 @@
           <option :value="500">500</option>
           <option :value="500">600</option>
           <option :value="700">700</option>
-      </select> <br>
+      </select>
       czcionka <select v-model="textOptions.fontFamily">
           <option v-for="font in fonts" :key="font" :value="font">{{ font }}</option>
       </select>
@@ -25,7 +25,7 @@ import fabricModule from "fabric";
 import _ from "lodash";
 const fabric = fabricModule.fabric;
 import { fonts } from "../fonts";
-const CANVAS_SIZE = 500;
+const CANVAS_SIZE = 800;
 
 export default defineComponent({
   props: {
@@ -58,7 +58,7 @@ export default defineComponent({
 
     const textOptions = reactive({
       text: "100 Lat",
-      size: 32,
+      size: 64,
       color: "#000",
       fontWeight: 300,
       fontFamily: fonts[0],
@@ -80,9 +80,10 @@ export default defineComponent({
     const loadText = () => {
       if (!textbox) {
         textbox = new fabric.Textbox(textOptions.text, {
-          top: CANVAS_SIZE - 100,
-          left: CANVAS_SIZE / 2 - CANVAS_SIZE / 8,
-          width: CANVAS_SIZE / 4,
+          top: CANVAS_SIZE - 200,
+          left: CANVAS_SIZE / 4,
+          width: CANVAS_SIZE / 2,
+          textAlign: "center"
         });
         canvas.add(textbox).setActiveObject(textbox);
 

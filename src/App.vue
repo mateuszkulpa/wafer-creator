@@ -1,20 +1,20 @@
 <template>
   <input type="file" @change="onUpload" accept="image/*">
-  <hr>
-  <wafer-canvas :image="image" @change="onCanvasChanged" />
-  <hr>
-  rozmiar 
-  <input type="number" v-model.number="size">
-  <br/>
-  margines góra
-  <input type="number" v-model.number="marginTop"> <br>
-
-  <button @click="generatePdf" :disabled="finalImageBase64 === null">
-    Generuj pdf
-  </button>
-   <button @click="generatePdfWithMinatures" :disabled="finalImageBase64 === null">
-    Generuj pdf z miniaturkami
-  </button>
+  <div style="display: flex;">
+    <wafer-canvas :image="image" @change="onCanvasChanged" />
+    <div>
+        rozmiar 
+        <input type="number" v-model.number="size">
+        margines góra
+        <input type="number" v-model.number="marginTop"> 
+        <button @click="generatePdf" :disabled="finalImageBase64 === null">
+          Generuj pdf
+        </button>
+        <button @click="generatePdfWithMinatures" :disabled="finalImageBase64 === null">
+          Generuj pdf z miniaturkami
+        </button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -96,7 +96,7 @@ export default defineComponent({
         size.value,
         size.value
       );
-      
+
       const top = size.value + marginTop.value + 10;
       const minatureSize = 45;
 
