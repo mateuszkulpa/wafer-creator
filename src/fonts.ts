@@ -7,6 +7,17 @@ export const fonts = [
   "Aladin",
   "Sedgwick Ave Display",
   "Amatic SC",
+  "Anton",
+  "Lobster",
+  "Pacifico",
+  "Bungee",
+  "Bangers",
+  "Audiowide",
+  "Rubik Mono One",
+  "Spectral SC",
+  "Bungee Shade",
+  "Ranchers",
+  "Nosifer"
 ];
 
 const loadFont = (font: string) => {

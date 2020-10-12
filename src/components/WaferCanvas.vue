@@ -14,7 +14,7 @@
           <option :value="700">700</option>
       </select>
       czcionka <select v-model="textOptions.fontFamily">
-          <option v-for="font in fonts" :key="font" :value="font">{{ font }}</option>
+          <option v-for="font in fonts" :key="font" :value="font" :style="{'font-family': font}">{{ font }}</option>
       </select>
   </div>
 </div>
