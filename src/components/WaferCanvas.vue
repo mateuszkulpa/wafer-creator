@@ -72,7 +72,7 @@ export default defineComponent({
       image = new fabric.Image(newImage, {
         scaleX: CANVAS_SIZE / newImage.width,
         scaleY: CANVAS_SIZE / newImage.height,
-        selectable: false,
+        selectable: false
       });
       canvas.add(image);
     };
@@ -98,6 +98,8 @@ export default defineComponent({
         fontWeight: textOptions.fontWeight,
         fontFamily: textOptions.fontFamily,
       });
+
+      canvas.bringToFront(textbox);
 
       canvas.renderAll();
       emitChanges();
