@@ -17,7 +17,18 @@ export const fonts = [
   "Spectral SC",
   "Bungee Shade",
   "Ranchers",
-  "Nosifer"
+  "Nosifer",
+  "Staatliches",
+  "Balsamiq Sans",
+  "Luckiest Guy",
+  "Press Start 2P",
+  "Black Ops One",
+  "Titan One",
+  "Shojumaru",
+  "Spicy Rice",
+  "Arbutus",
+  "Joti One",
+  "Kaushan Script",
 ];
 
 const loadFont = (font: string) => {
