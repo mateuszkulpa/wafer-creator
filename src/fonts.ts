@@ -1,7 +1,7 @@
 /* @ts-ignore  */
 import FontFaceObserver from "fontfaceobserver";
 
-export const fonts = [
+export const FONTS = [
   "Courgette",
   "Berkshire Swash",
   "Aladin",
@@ -31,6 +31,8 @@ export const fonts = [
   "Kaushan Script",
 ];
 
+export const DEFAULT_FONT = "Luckiest Guy";
+
 const loadFont = (font: string) => {
   var myfont = new FontFaceObserver(font);
   myfont.load().then(function () {});
@@ -38,12 +40,12 @@ const loadFont = (font: string) => {
 
 export function loadFonts() {
   const link = document.createElement("link");
-  link.href = `https://fonts.googleapis.com/css2?${fonts
+  link.href = `https://fonts.googleapis.com/css2?${FONTS
     .map((f) => `family=${f.replace(" ", "+")}`)
     .join("&")}&display=swap`;
 
   link.rel = "stylesheet";
   document.head.appendChild(link);
 
-  for (const family of fonts) loadFont(family);
+  for (const family of FONTS) loadFont(family);
 }

@@ -7,6 +7,7 @@
       kolor <input type="color"  v-model="textOptions.color"> 
       kontur - rozmiar <input type="number" v-model.number="textOptions.strokeWidth"/>
       kontur - kolor <input type="color" v-model="textOptions.strokeColor"/>
+      wysokość linni <input type="number" step="0.1" v-model.number="textOptions.lineHeight" />
       grubość <select v-model.number="textOptions.fontWeight">
           <option :value="200">200</option>
           <option :value="300">300</option>
@@ -16,7 +17,7 @@
           <option :value="700">700</option>
       </select>
       czcionka <select v-model="textOptions.fontFamily">
-          <option v-for="font in fonts" :key="font" :value="font" :style="{'font-family': font}">{{ font }}</option>
+          <option v-for="font in FONTS" :key="font" :value="font" :style="{'font-family': font}">{{ font }}</option>
       </select>
   </div>
 </div>
@@ -26,7 +27,7 @@ import { defineComponent, onMounted, PropType, watch, reactive } from "vue";
 import fabricModule from "fabric";
 import _ from "lodash";
 const fabric = fabricModule.fabric;
-import { fonts } from "../fonts";
+import { FONTS, DEFAULT_FONT } from "../fonts";
 const CANVAS_SIZE = 800;
 
 export default defineComponent({
@@ -60,12 +61,13 @@ export default defineComponent({
 
     const textOptions = reactive({
       text: "100 Lat",
-      size: 64,
+      size: 80,
       color: "#FFFFFF",
       fontWeight: 300,
-      fontFamily: fonts[0],
-      strokeWidth: 2,
-      strokeColor: "#000000"
+      fontFamily: DEFAULT_FONT,
+      strokeWidth: 4,
+      strokeColor: "#000000",
+      lineHeight: 1
     });
 
     const loadImage = (newImage: HTMLImageElement) => {
@@ -103,7 +105,8 @@ export default defineComponent({
         fontWeight: textOptions.fontWeight,
         fontFamily: textOptions.fontFamily,
         strokeWidth: textOptions.strokeWidth,
-        stroke: textOptions.strokeColor
+        stroke: textOptions.strokeColor,
+        lineHeight: textOptions.lineHeight
       });
 
       canvas.bringToFront(textbox);
@@ -127,7 +130,7 @@ export default defineComponent({
 
     return {
       CANVAS_SIZE,
-      fonts,
+      FONTS,
       textOptions,
     };
   },
