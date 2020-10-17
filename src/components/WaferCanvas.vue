@@ -5,6 +5,8 @@
       tekst <input type="text" placeholder="text" v-model="textOptions.text"> 
       rozmiar <input type="number"  v-model="textOptions.size"> 
       kolor <input type="color"  v-model="textOptions.color"> 
+      kontur - rozmiar <input type="number" v-model.number="textOptions.strokeWidth"/>
+      kontur - kolor <input type="color" v-model="textOptions.strokeColor"/>
       grubość <select v-model.number="textOptions.fontWeight">
           <option :value="200">200</option>
           <option :value="300">300</option>
@@ -59,9 +61,11 @@ export default defineComponent({
     const textOptions = reactive({
       text: "100 Lat",
       size: 64,
-      color: "#000",
+      color: "#FFFFFF",
       fontWeight: 300,
       fontFamily: fonts[0],
+      strokeWidth: 2,
+      strokeColor: "#000000"
     });
 
     const loadImage = (newImage: HTMLImageElement) => {
@@ -83,7 +87,7 @@ export default defineComponent({
           top: CANVAS_SIZE - 200,
           left: CANVAS_SIZE / 4,
           width: CANVAS_SIZE / 2,
-          textAlign: "center"
+          textAlign: "center",
         });
         canvas.add(textbox).setActiveObject(textbox);
 
@@ -98,6 +102,8 @@ export default defineComponent({
         fill: textOptions.color,
         fontWeight: textOptions.fontWeight,
         fontFamily: textOptions.fontFamily,
+        strokeWidth: textOptions.strokeWidth,
+        stroke: textOptions.strokeColor
       });
 
       canvas.bringToFront(textbox);
