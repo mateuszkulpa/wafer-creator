@@ -1,6 +1,6 @@
 <template>
 <div style="display: flex; ">
-  <canvas id="c" :width="CANVAS_SIZE" :height="CANVAS_SIZE" style="border: 1px solid black;"></canvas>
+  <canvas id="c" style="border: 1px solid black;"></canvas>
   <div style="padding: 0 2rem;">
       tekst <input type="text" placeholder="text" v-model="textOptions.text"> 
       rozmiar <input type="number"  v-model="textOptions.size"> 
@@ -22,12 +22,21 @@
   </div>
 </div>
 </template>
+
 <script lang="ts">
-import { defineComponent, onMounted, PropType, watch, reactive } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  PropType,
+  watch,
+  reactive,
+  computed,
+} from "vue";
 import fabricModule from "fabric";
 import _ from "lodash";
 const fabric = fabricModule.fabric;
 import { FONTS, DEFAULT_FONT } from "../fonts";
+import { WaferType } from "../enums";
 const CANVAS_SIZE = 800;
 
 export default defineComponent({
@@ -37,11 +46,31 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    waferType: {
+      type: Number as PropType<WaferType>,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     let canvas: fabric.Canvas | null = null;
     let image: farbic.Image | null;
     let textbox: fabric.Textbox | null;
+
+    const canvasSize = computed(() => {
+      return {
+        height: CANVAS_SIZE,
+        width:
+          CANVAS_SIZE * (props.waferType === WaferType.Circle ? 1 : 297 / 210),
+      };
+    });
+
+    watch(
+      () => props.waferType,
+      () => {
+        canvas.setHeight(canvasSize.value.height);
+        canvas.setWidth(canvasSize.value.width);
+      }
+    );
 
     const emitChanges = _.debounce(() => {
       emit("change", canvas.toDataURL());
@@ -49,6 +78,8 @@ export default defineComponent({
 
     const initializeCanvas = () => {
       canvas = new fabric.Canvas("c");
+      canvas.setHeight(canvasSize.value.height);
+      canvas.setWidth(canvasSize.value.width);
 
       canvas.on("object:added", emitChanges);
       canvas.on("object:removed", emitChanges);
@@ -67,7 +98,7 @@ export default defineComponent({
       fontFamily: DEFAULT_FONT,
       strokeWidth: 4,
       strokeColor: "#000000",
-      lineHeight: 1
+      lineHeight: 1,
     });
 
     const loadImage = (newImage: HTMLImageElement) => {
@@ -76,9 +107,9 @@ export default defineComponent({
       }
 
       image = new fabric.Image(newImage, {
-        scaleX: CANVAS_SIZE / newImage.width,
-        scaleY: CANVAS_SIZE / newImage.height,
-        selectable: false
+        scaleX: canvasSize.value.width / newImage.width,
+        scaleY: canvasSize.value.height / newImage.height,
+        selectable: false,
       });
       canvas.add(image);
     };
@@ -86,9 +117,9 @@ export default defineComponent({
     const loadText = () => {
       if (!textbox) {
         textbox = new fabric.Textbox(textOptions.text, {
-          top: CANVAS_SIZE - 200,
-          left: CANVAS_SIZE / 4,
-          width: CANVAS_SIZE / 2,
+          top: canvasSize.value.height - 200,
+          left: canvasSize.value.width / 4,
+          width: canvasSize.value.width / 2,
           textAlign: "center",
         });
         canvas.add(textbox).setActiveObject(textbox);
@@ -106,7 +137,7 @@ export default defineComponent({
         fontFamily: textOptions.fontFamily,
         strokeWidth: textOptions.strokeWidth,
         stroke: textOptions.strokeColor,
-        lineHeight: textOptions.lineHeight
+        lineHeight: textOptions.lineHeight,
       });
 
       canvas.bringToFront(textbox);
@@ -126,12 +157,11 @@ export default defineComponent({
     watch(textOptions, () => {
       loadText();
     });
-    
 
     return {
-      CANVAS_SIZE,
       FONTS,
       textOptions,
+      canvasSize,
     };
   },
 });

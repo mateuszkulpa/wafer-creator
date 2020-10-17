@@ -40,9 +40,9 @@ const loadFont = (font: string) => {
 
 export function loadFonts() {
   const link = document.createElement("link");
-  link.href = `https://fonts.googleapis.com/css2?${FONTS
-    .map((f) => `family=${f.replace(" ", "+")}`)
-    .join("&")}&display=swap`;
+  link.href = `https://fonts.googleapis.com/css2?${FONTS.map(
+    (f) => `family=${f.replace(" ", "+")}`
+  ).join("&")}&display=swap`;
 
   link.rel = "stylesheet";
   document.head.appendChild(link);

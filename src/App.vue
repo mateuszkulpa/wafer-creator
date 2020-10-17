@@ -1,7 +1,17 @@
 <template>
-  <input type="file" @change="onUpload" accept="image/*">
+  <div style="display: flex; align-items: center;">
+    <input type="file" @change="onUpload" accept="image/*">
+    <div>
+        <label for="wafer-type-circle" style="display: block;">
+          <input v-model="waferType" type="radio" :value="WaferType.Circle" name="wafer-type" id="wafer-type-circle"/> Koło 
+        </label>
+        <label for="wafer-type-rectangle" style="display: block;">
+          <input v-model="waferType" type="radio" :value="WaferType.Rectangle" name="wafer-type" id="wafer-type-rectangle"> Prostokąt
+        </label>
+    </div>
+  </div>
   <div style="display: flex;">
-    <wafer-canvas :image="image" @change="onCanvasChanged" />
+    <wafer-canvas :image="image" @change="onCanvasChanged" :waferType="waferType" />
     <div>
         rozmiar 
         <input type="number" v-model.number="size">
@@ -21,6 +31,7 @@
 import { jsPDF } from "jspdf";
 import { defineComponent, ref, computed } from "vue";
 import WaferCanvas from "./components/WaferCanvas.vue";
+import { WaferType } from "./enums";
 
 const getImageByFile = (file: File) =>
   new Promise<HTMLImageElement>((resolve, reject) => {
@@ -56,6 +67,7 @@ export default defineComponent({
     const marginTop = ref(15);
     const image = ref<HTMLImageElement | null>(null);
     const finalImageBase64 = ref<string | null>(null);
+    const waferType = ref<WaferType>(WaferType.Circle);
 
     const onUpload = async (event: Event) => {
       const target = event.target as HTMLInputElement;
@@ -73,8 +85,7 @@ export default defineComponent({
       return;
     });
 
-    const generatePdf = async () => {
-      const doc = new jsPDF();
+    const addCircleImageToPdf = (doc: jsPDF) => {
       doc.addImage(
         finalImageBase64.value,
         "JPG",
@@ -83,19 +94,26 @@ export default defineComponent({
         size.value,
         size.value
       );
+    };
+
+    const addRectangleImageToPdf = (doc: jsPDF) => {
+      doc.addImage(finalImageBase64.value, "JPG", 5, 5, 297 - 10, 210 - 10);
+    };
+
+    const generatePdf = async () => {
+      const doc = new jsPDF({
+        orientation:
+          waferType.value === WaferType.Circle ? "portrait" : "landscape",
+      });
+      if (waferType.value === WaferType.Circle) addCircleImageToPdf(doc);
+      else if (waferType.value === WaferType.Rectangle)
+        addRectangleImageToPdf(doc);
       doc.save(new Date().getTime() + ".pdf");
     };
 
     const generatePdfWithMinatures = () => {
       const doc = new jsPDF();
-      doc.addImage(
-        finalImageBase64.value,
-        "JPG",
-        5,
-        marginTop.value,
-        size.value,
-        size.value
-      );
+      addCircleImageToPdf(doc);
 
       const top = size.value + marginTop.value + 10;
       const minatureSize = 45;
@@ -126,6 +144,8 @@ export default defineComponent({
       size,
       onUpload,
       generatePdf,
+      WaferType,
+      waferType,
     };
   },
 });
