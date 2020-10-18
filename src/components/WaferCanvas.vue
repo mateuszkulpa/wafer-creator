@@ -73,13 +73,16 @@ export default defineComponent({
     );
 
     const emitChanges = _.debounce(() => {
-      emit("change", canvas.toDataURL());
+      emit("change", canvas.toDataURL({
+        multiplier: 2
+      }));
     }, 500);
 
     const initializeCanvas = () => {
       canvas = new fabric.Canvas("c");
       canvas.setHeight(canvasSize.value.height);
       canvas.setWidth(canvasSize.value.width);
+      
 
       canvas.on("object:added", emitChanges);
       canvas.on("object:removed", emitChanges);
@@ -109,6 +112,8 @@ export default defineComponent({
       image = new fabric.Image(newImage, {
         scaleX: canvasSize.value.width / newImage.width,
         scaleY: canvasSize.value.height / newImage.height,
+        width: newImage.width,
+        height: newImage.height,
         selectable: false,
       });
       canvas.add(image);
