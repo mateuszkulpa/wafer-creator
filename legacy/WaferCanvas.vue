@@ -1,13 +1,13 @@
 <template>
 <div style="display: flex; ">
   <canvas id="c" style="border: 1px solid black;"></canvas>
-  <div style="padding: 0 2rem;">
-      tekst <input type="text" placeholder="text" v-model="textOptions.text"> 
-      rozmiar <input type="number"  v-model="textOptions.size"> 
-      kolor <input type="color"  v-model="textOptions.color"> 
-      kontur - rozmiar <input type="number" v-model.number="textOptions.strokeWidth"/>
-      kontur - kolor <input type="color" v-model="textOptions.strokeColor"/>
-      wysokość linni <input type="number" step="0.1" v-model.number="textOptions.lineHeight" />
+  <div>
+      tekst <input type="text" placeholder="text" v-model="textOptions.text"> <br/>
+      rozmiar <input type="number"  v-model="textOptions.size">  <br/>
+      kolor <input type="color"  v-model="textOptions.color">  <br/>
+      kontur - rozmiar <input type="number" v-model.number="textOptions.strokeWidth"/> <br/>
+      kontur - kolor <input type="color" v-model="textOptions.strokeColor"/> <br/>
+      wysokość linni <input type="number" step="0.1" v-model.number="textOptions.lineHeight" /> <br/>
       grubość <select v-model.number="textOptions.fontWeight">
           <option :value="200">200</option>
           <option :value="300">300</option>
@@ -15,7 +15,7 @@
           <option :value="500">500</option>
           <option :value="500">600</option>
           <option :value="700">700</option>
-      </select>
+      </select> <br/>
       czcionka <select v-model="textOptions.fontFamily">
           <option v-for="font in FONTS" :key="font" :value="font" :style="{'font-family': font}">{{ font }}</option>
       </select>
@@ -26,17 +26,16 @@
 <script lang="ts">
 import {
   defineComponent,
-  onMounted,
   PropType,
+  onMounted,
   watch,
   reactive,
   computed,
 } from "vue";
-import fabricModule from "fabric";
+import { fabric } from "fabric";
 import _ from "lodash";
-const fabric = fabricModule.fabric;
-import { FONTS, DEFAULT_FONT } from "../fonts";
-import { WaferType } from "../enums";
+import { FONTS, DEFAULT_FONT } from "@/fonts";
+import { WaferType } from "@/enums";
 const CANVAS_SIZE = 800;
 
 export default defineComponent({
@@ -52,9 +51,9 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    let canvas: fabric.Canvas | null = null;
-    let image: farbic.Image | null;
-    let textbox: fabric.Textbox | null;
+    let canvas: fabric.Canvas;
+    let image: fabric.Image;
+    let textbox: fabric.Textbox;
 
     const canvasSize = computed(() => {
       return {
@@ -73,16 +72,18 @@ export default defineComponent({
     );
 
     const emitChanges = _.debounce(() => {
-      emit("change", canvas.toDataURL({
-        multiplier: 2
-      }));
+      emit(
+        "change",
+        canvas.toDataURL({
+          multiplier: 2,
+        })
+      );
     }, 500);
 
     const initializeCanvas = () => {
       canvas = new fabric.Canvas("c");
       canvas.setHeight(canvasSize.value.height);
       canvas.setWidth(canvasSize.value.width);
-      
 
       canvas.on("object:added", emitChanges);
       canvas.on("object:removed", emitChanges);
@@ -127,10 +128,11 @@ export default defineComponent({
           width: canvasSize.value.width / 2,
           textAlign: "center",
         });
-        canvas.add(textbox).setActiveObject(textbox);
+        canvas.add(textbox);
+        canvas.setActiveObject(textbox);
 
         textbox.on("changed", () => {
-          textOptions.text = textbox.text;
+          textOptions.text = textbox.text ?? "";
         });
       }
 
@@ -154,6 +156,7 @@ export default defineComponent({
     watch(
       () => props.image,
       (newImage) => {
+        if (newImage === null) return;
         loadImage(newImage);
         loadText();
       }

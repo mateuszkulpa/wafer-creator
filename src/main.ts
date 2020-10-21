@@ -1,7 +1,5 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./index.scss";
-import { loadFonts } from "./fonts";
+import "@/styles/main.scss";
 
-loadFonts();
 createApp(App).mount("#app");
