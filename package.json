@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/fabric": "^3.6.8",
+    "@types/fontfaceobserver": "0.0.6",
     "@types/lodash": "^4.14.162",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
@@ -32,6 +33,8 @@
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3"
+    "style-resources-loader": "^1.3.2",
+    "typescript": "~3.9.3",
+    "vue-cli-plugin-style-resources-loader": "~0.1.4"
   }
 }

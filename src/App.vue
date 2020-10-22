@@ -1,40 +1,12 @@
 <template>
-  <pre>{{ textOptions }}</pre>
-  <div class="box">
-    <fabric-canvas :options="canvasOptions">
-      <fabric-textbox :options="textOptions" />
-      <fabric-textbox :options="{ top: 20, text: 'test 123', left: 50 }" />
-    </fabric-canvas>
-  </div>
-
-  <input type="text" v-model="textOptions.text" />
-  <input type="color" v-model="textOptions.fill" />
-  <input type="number" v-model="textOptions.fontSize" />
+  <wafer-editor />
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
-import FabricCanvas from "@/components/fabric/FabricCanvas.vue";
-import FabricTextbox from "@/components/fabric/FabricTextbox.vue";
-import fabric from "@/fabric";
+import { defineComponent } from "vue";
+import WaferEditor from "@/components/wafer/WaferEditor.vue";
 
 export default defineComponent({
-  components: { FabricCanvas, FabricTextbox },
-  setup() {
-    const canvasOptions = reactive<fabric.ICanvasOptions>({
-      width: 500,
-      height: 500,
-      backgroundColor: "#CCC"
-    });
-
-    const textOptions = reactive<fabric.ITextboxOptions>({
-      text: "This is a sample text",
-      width: 500,
-      fontSize: 32,
-      textAlign: "center"
-    });
-
-    return { canvasOptions, textOptions };
-  }
+  components: { WaferEditor }
 });
 </script>

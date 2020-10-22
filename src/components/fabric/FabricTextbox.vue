@@ -6,7 +6,8 @@ import {
   Ref,
   ref,
   watch,
-  onMounted
+  onMounted,
+  onUnmounted
 } from "vue";
 import fabric from "@/fabric";
 import { FABRIC_CANVAS_SYMBOL } from "@/constants";
@@ -19,13 +20,24 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const canvas = inject<Ref<fabric.Canvas | null>>(
       FABRIC_CANVAS_SYMBOL,
       ref<fabric.Canvas | null>(null)
     );
     const textbox = ref<fabric.Textbox | null>(null);
 
+    const onTextboxChanged = () => {
+      emit("update:options", {
+        ...props.options,
+        top: textbox.value?.top,
+        left: textbox.value?.left,
+        text: textbox.value?.text,
+        width: textbox.value?.width,
+        height: textbox.value?.height,
+        fontSize: textbox.value?.fontSize
+      });
+    };
     const initializeTextbox = () => {
       if (canvas.value === null) {
         console.error(
@@ -34,7 +46,11 @@ export default defineComponent({
         return;
       }
       textbox.value = new fabric.Textbox("", props.options);
-      canvas.value?.add(textbox.value);
+      textbox.value.on("modified", onTextboxChanged);
+      textbox.value.on("changed", onTextboxChanged);
+
+      canvas.value.add(textbox.value);
+      canvas.value.bringToFront(textbox.value);
     };
 
     const setOptions = () => {
@@ -42,10 +58,12 @@ export default defineComponent({
       canvas.value?.renderAll();
     };
 
-    onMounted(() => {
-      initializeTextbox();
-    });
-    watch(props.options, setOptions, { deep: true });
+    const removeTextbox = () => {
+      if (textbox.value) canvas.value?.remove(textbox.value);
+    };
+    onUnmounted(removeTextbox);
+    onMounted(initializeTextbox);
+    watch(() => props.options, setOptions, { deep: true });
 
     return () => null;
   }
