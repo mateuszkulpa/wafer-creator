@@ -37,7 +37,8 @@ export default defineComponent({
         canvas.value.setHeight(newOptions.height);
     });
 
-    return () => h("canvas", { ref: canvasRef }, slots);
+    return () =>
+      h("canvas", { ref: canvasRef }, canvas.value ? slots : undefined);
   }
 });
 </script>

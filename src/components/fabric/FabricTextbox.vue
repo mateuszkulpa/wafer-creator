@@ -1,5 +1,13 @@
 <script lang="ts">
-import { defineComponent, PropType, inject, Ref, ref, watch } from "vue";
+import {
+  defineComponent,
+  PropType,
+  inject,
+  Ref,
+  ref,
+  watch,
+  onMounted
+} from "vue";
 import fabric from "@/fabric";
 import { FABRIC_CANVAS_SYMBOL } from "@/constants";
 
@@ -19,10 +27,14 @@ export default defineComponent({
     const textbox = ref<fabric.Textbox | null>(null);
 
     const initializeTextbox = () => {
-      if (canvas.value === null || textbox.value !== null) return;
-
+      if (canvas.value === null) {
+        console.error(
+          "FarbicTextbox cannot be rendered. It's should be child of FabricCanvas"
+        );
+        return;
+      }
       textbox.value = new fabric.Textbox("", props.options);
-      canvas.value.add(textbox.value);
+      canvas.value?.add(textbox.value);
     };
 
     const setOptions = () => {
@@ -30,10 +42,9 @@ export default defineComponent({
       canvas.value?.renderAll();
     };
 
-    watch(canvas, () => {
+    onMounted(() => {
       initializeTextbox();
     });
-
     watch(props.options, setOptions, { deep: true });
 
     return () => null;

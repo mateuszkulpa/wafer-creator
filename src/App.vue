@@ -3,8 +3,10 @@
   <div class="box">
     <fabric-canvas :options="canvasOptions">
       <fabric-textbox :options="textOptions" />
+      <fabric-textbox :options="{ top: 20, text: 'test 123', left: 50 }" />
     </fabric-canvas>
   </div>
+
   <input type="text" v-model="textOptions.text" />
   <input type="color" v-model="textOptions.fill" />
   <input type="number" v-model="textOptions.fontSize" />
