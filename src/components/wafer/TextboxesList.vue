@@ -1,18 +1,41 @@
 <template>
   <div class="textboxes-list">
     <div v-for="(textOption, index) in innerOptions" :key="index" class="box">
-      <div class="columns is-multiline is-variable is-4">
+      <div class="columns is-multiline is-variable is-2">
         <div class="column is-12">
-          <input-base type="text" v-model="innerOptions[index].text" />
+          <input-base
+            label="Tekst"
+            type="text"
+            v-model="innerOptions[index].text"
+          />
         </div>
-        <div class="column is-4">
-          <input-base type="color" v-model="innerOptions[index].fill" />
+        <div class="column is-3">
+          <input-base
+            label="Wypełnienie"
+            type="color"
+            v-model="innerOptions[index].fill"
+          />
         </div>
-        <div class="column is-4">
-          <input-base type="color" v-model="innerOptions[index].stroke" />
+        <div class="column is-3">
+          <input-base
+            label="Kontur"
+            type="color"
+            v-model="innerOptions[index].stroke"
+          />
         </div>
-        <div class="column is-4">
-          <input-base type="number" v-model="innerOptions[index].fontSize" />
+        <div class="column is-3">
+          <input-base
+            label="Rozmiar"
+            type="number"
+            v-model.number="innerOptions[index].fontSize"
+          />
+        </div>
+        <div class="column is-3">
+          <input-base
+            label="Kontur"
+            type="number"
+            v-model.number="innerOptions[index].strokeWidth"
+          />
         </div>
         <div class="column is-6">
           <div class="select">
@@ -28,6 +51,12 @@
           </div>
         </div>
         <div class="column is-6 is-flex is-justify-content-end">
+          <button
+            class="button is-secondary is-outlined mr-2"
+            @click="() => onDuplicateText(innerOptions[index])"
+          >
+            <i class="fas fa-copy"></i>
+          </button>
           <button
             class="button is-danger is-outlined"
             @click="() => onRemoveText(innerOptions[index])"
@@ -76,7 +105,12 @@ export default defineComponent({
       innerOptions.value = innerOptions.value.filter(x => x !== item);
       emit("update:options", innerOptions);
     };
-    return { innerOptions, onAddText, onRemoveText, FONTS };
+
+    const onDuplicateText = (item: fabric.ITextboxOptions) => {
+      innerOptions.value.push({ ...item });
+      emit("update:options", innerOptions);
+    };
+    return { innerOptions, onAddText, onRemoveText, onDuplicateText, FONTS };
   }
 });
 </script>

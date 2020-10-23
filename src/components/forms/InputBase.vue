@@ -1,30 +1,46 @@
 <template>
   <div class="field">
     <div class="control">
-      <input class="input" v-bind="$attrs" v-model="innerValue" />
+      <input
+        class="input"
+        v-bind="$attrs"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+      />
     </div>
+    <label class="label">{{ label }}</label>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   props: {
+    label: {
+      type: String as PropType<string>,
+      required: false,
+      default: ""
+    },
     modelValue: {
       type: [String, Number] as PropType<string | number | null>,
       required: false,
       default: null
     }
-  },
-  setup(props, { emit }) {
-    const innerValue = ref<string | number | null>(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (innerValue.value = props.modelValue)
-    );
-    watch(innerValue, () => emit("update:modelValue", innerValue.value));
-    return { innerValue };
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.field {
+  position: relative;
+  label {
+    position: absolute;
+    top: -10px;
+    left: 8px;
+    padding: 0 3px;
+    background: $white;
+    font-size: $size-7;
+  }
+}
+</style>

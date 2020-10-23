@@ -1,13 +1,11 @@
+ren<template>
+  <canvas ref="canvasRef">
+    <slot v-if="canvas" />
+  </canvas>
+</template>
+
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  PropType,
-  ref,
-  watch,
-  h,
-  provide
-} from "vue";
+import { defineComponent, onMounted, PropType, ref, watch, provide } from "vue";
 import fabric from "@/fabric";
 import { FABRIC_CANVAS_SYMBOL } from "@/constants";
 
@@ -19,7 +17,7 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup(props, { slots }) {
+  setup(props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null);
     const canvas = ref<fabric.Canvas | null>(null);
     provide(FABRIC_CANVAS_SYMBOL, canvas);
@@ -37,8 +35,24 @@ export default defineComponent({
         canvas.value.setHeight(newOptions.height);
     });
 
-    return () =>
-      h("canvas", { ref: canvasRef }, canvas.value ? slots : undefined);
+    const toDataImage = () => {
+      return new Promise<HTMLImageElement>(resolve => {
+        if (!canvas.value)
+          throw Error(
+            "Cannot generate image result, canvas is not initialized"
+          );
+        const dataURL = canvas.value.toDataURL({ multiplier: 2 });
+        const image = new Image();
+        image.src = dataURL;
+        image.onload = () => resolve(image);
+      });
+    };
+
+    return {
+      canvasRef,
+      canvas,
+      toDataImage
+    };
   }
 });
 </script>

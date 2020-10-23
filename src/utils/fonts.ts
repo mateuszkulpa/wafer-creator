@@ -2,7 +2,7 @@ import FontFaceObserver from "fontfaceobserver";
 import { FONTS } from "@/constants";
 
 const loadFont = (font: string) => {
-  new FontFaceObserver(font).load();
+  return new FontFaceObserver(font).load();
 };
 const googleFontsHref = () =>
   `https://fonts.googleapis.com/css2?${FONTS.map(
@@ -15,6 +15,5 @@ export function loadAllFonts() {
 
   link.rel = "stylesheet";
   document.head.appendChild(link);
-
-  for (const family of FONTS) loadFont(family);
+  return Promise.all(FONTS.map(x => loadFont(x)));
 }

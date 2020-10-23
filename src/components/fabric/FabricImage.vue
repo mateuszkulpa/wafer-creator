@@ -42,8 +42,6 @@ export default defineComponent({
         return;
       }
       if (props.image) {
-        console.log("init");
-        console.log(props.options);
         image.value = new fabric.Image(props.image, props.options);
         canvas.value?.add(image.value);
         canvas.value?.sendToBack(image.value);
