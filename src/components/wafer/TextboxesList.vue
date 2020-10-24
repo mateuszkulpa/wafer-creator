@@ -9,32 +9,42 @@
             v-model="innerOptions[index].text"
           />
         </div>
-        <div class="column is-3">
+        <div class="column is-6">
           <input-base
             label="Wypełnienie"
             type="color"
             v-model="innerOptions[index].fill"
           />
         </div>
-        <div class="column is-3">
+        <div class="column is-6">
           <input-base
             label="Kontur"
             type="color"
             v-model="innerOptions[index].stroke"
           />
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
           <input-base
             label="Rozmiar"
             type="number"
             v-model.number="innerOptions[index].fontSize"
           />
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
           <input-base
             label="Kontur"
             type="number"
             v-model.number="innerOptions[index].strokeWidth"
+          />
+        </div>
+        <div class="column is-4">
+          <input-base
+            label="Wysokość"
+            type="number"
+            min="0.1"
+            max="3"
+            step="0.1"
+            v-model.number="innerOptions[index].lineHeight"
           />
         </div>
         <div class="column is-6">
