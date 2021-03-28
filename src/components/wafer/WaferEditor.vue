@@ -7,6 +7,11 @@
         <div class="box">
           <type-selector v-model="type" />
           <image-selector class="mt-4" @selected="onImageSelected" />
+          <crop-image-selector
+            class="mt-4"
+            :wafer-type="type"
+            @selected="onImageSelected"
+          />
         </div>
 
         <div class="box">
@@ -88,6 +93,7 @@ import FabricTextbox from "@/components/fabric/FabricTextbox.vue";
 import FabricImage from "@/components/fabric/FabricImage.vue";
 import TextboxesList from "@/components/wafer/TextboxesList.vue";
 import ImageSelector from "@/components/wafer/ImageSelector.vue";
+import CropImageSelector from "@/components/wafer/CropImageSelector.vue";
 import TypeSelector from "@/components/wafer/TypeSelector.vue";
 import InputBase from "@/components/forms/InputBase.vue";
 
@@ -123,6 +129,7 @@ export default defineComponent({
     FabricImage,
     TextboxesList,
     ImageSelector,
+    CropImageSelector,
     TypeSelector,
     InputBase
   },
@@ -163,7 +170,7 @@ export default defineComponent({
     const onImageSelected = (imageElement: HTMLImageElement) => {
       imageOptions.value = {
         scaleX: (canvasOptions.value.width || 0) / imageElement.width,
-        scaleY: (canvasOptions.value.height || 0) / imageElement.height,
+        scaleY: (canvasOptions.value.width || 0) / imageElement.width,
         width: imageElement.width,
         height: imageElement.height,
         selectable: true

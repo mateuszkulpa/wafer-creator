@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input-file @input="onUpload" accept="image/*" label="Wybierz zdjęcie" />
+    <input-file @change.stop="onUpload" accept="image/*" :label="label" />
   </div>
 </template>
 
@@ -8,9 +8,17 @@
 import { defineComponent } from "vue";
 import { getImageByFile } from "@/utils/image";
 import InputFile from "@/components/forms/InputFile.vue";
+
 export default defineComponent({
   components: {
     InputFile
+  },
+  props: {
+    label: {
+      type: String,
+      required: false,
+      default: "Wybierz zdjęcie"
+    }
   },
   setup(props, { emit }) {
     const onUpload = async (event: Event) => {
