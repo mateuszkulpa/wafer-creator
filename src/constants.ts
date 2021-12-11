@@ -32,7 +32,8 @@ const FONTS = [
   "Spicy Rice",
   "Arbutus",
   "Joti One",
-  "Kaushan Script"
+  "Kaushan Script",
+  "Cookie",
 ];
 
 const DEFAULT_TEXT_OPTIONS: fabric.ITextboxOptions = {
