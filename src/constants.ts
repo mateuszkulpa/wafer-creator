@@ -34,6 +34,9 @@ const FONTS = [
   "Joti One",
   "Kaushan Script",
   "Cookie",
+  "Dancing Script",
+  "Parisienne",
+  "Shrikhand",
 ];
 
 const DEFAULT_TEXT_OPTIONS: fabric.ITextboxOptions = {
