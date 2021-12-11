@@ -36,7 +36,7 @@ const FONTS = [
   "Cookie",
   "Dancing Script",
   "Parisienne",
-  "Shrikhand",
+  "Shrikhand"
 ];
 
 const DEFAULT_TEXT_OPTIONS: fabric.ITextboxOptions = {

@@ -63,6 +63,18 @@
         <div class="column is-6 is-flex is-justify-content-end">
           <button
             class="button is-secondary is-outlined mr-2"
+            @click="() => onUppercaseText(innerOptions[index])"
+          >
+            A
+          </button>
+          <button
+            class="button is-secondary is-outlined mr-2"
+            @click="() => onLowercaseText(innerOptions[index])"
+          >
+            a
+          </button>
+          <button
+            class="button is-secondary is-outlined mr-2"
             @click="() => onDuplicateText(innerOptions[index])"
           >
             <i class="fas fa-copy"></i>
@@ -120,7 +132,24 @@ export default defineComponent({
       innerOptions.value.push({ ...item });
       emit("update:options", innerOptions);
     };
-    return { innerOptions, onAddText, onRemoveText, onDuplicateText, FONTS };
+
+    const onUppercaseText = (item: fabric.ITextboxOptions) => {
+      item.text = item.text?.toUpperCase();
+    };
+
+    const onLowercaseText = (item: fabric.ITextboxOptions) => {
+      item.text = item.text?.toLowerCase();
+    };
+
+    return {
+      innerOptions,
+      onAddText,
+      onRemoveText,
+      onDuplicateText,
+      onUppercaseText,
+      onLowercaseText,
+      FONTS
+    };
   }
 });
 </script>
