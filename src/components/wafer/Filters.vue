@@ -1,7 +1,7 @@
 <template>
   <div class="filters">
     <label for="brightness">
-      brightness {{ brightness }} <br />
+      brightness {{ brightness.toFixed(2) }} <br />
       <input
         type="range"
         id="brightness"
@@ -14,7 +14,7 @@
     </label>
 
     <label for="saturation">
-      saturation {{ saturation }} <br />
+      saturation {{ saturation.toFixed(2) }} <br />
       <input
         type="range"
         id="saturation"
@@ -27,7 +27,7 @@
     </label>
 
     <label for="contrast">
-      contrast {{ contrast }} <br />
+      contrast {{ contrast.toFixed(2) }} <br />
       <input
         type="range"
         id="contrast"
