@@ -15,6 +15,10 @@
         </div>
 
         <div class="box">
+          <filters @update:filters="imageFilters = $event" />
+        </div>
+
+        <div class="box">
           <input-base
             v-if="
               type === WaferType.Circle ||
@@ -69,7 +73,11 @@
             class="wafer-canvas"
             ref="canvasRef"
           >
-            <fabric-image :image="image" v-model:options="imageOptions" />
+            <fabric-image
+              :image="image"
+              v-model:options="imageOptions"
+              :filters="imageFilters"
+            />
             <fabric-textbox
               v-for="(textOption, index) in textsOptions"
               :key="index"
@@ -87,7 +95,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from "vue";
+import { defineComponent, reactive, ref, shallowRef, watch } from "vue";
 import FabricCanvas from "@/components/fabric/FabricCanvas.vue";
 import FabricTextbox from "@/components/fabric/FabricTextbox.vue";
 import FabricImage from "@/components/fabric/FabricImage.vue";
@@ -96,6 +104,7 @@ import ImageSelector from "@/components/wafer/ImageSelector.vue";
 import CropImageSelector from "@/components/wafer/CropImageSelector.vue";
 import TypeSelector from "@/components/wafer/TypeSelector.vue";
 import InputBase from "@/components/forms/InputBase.vue";
+import Filters from "./Filters.vue";
 
 import fabric from "@/fabric";
 import {
@@ -131,7 +140,8 @@ export default defineComponent({
     ImageSelector,
     CropImageSelector,
     TypeSelector,
-    InputBase
+    InputBase,
+    Filters
   },
   setup() {
     const canvasOptions = ref<fabric.ICanvasOptions>({
@@ -144,6 +154,8 @@ export default defineComponent({
       width: DEFAULT_CANVAS_SIZE,
       height: DEFAULT_CANVAS_SIZE
     });
+
+    const imageFilters = shallowRef([]);
 
     const textsOptions = ref<fabric.ITextboxOptions[]>([
       { ...DEFAULT_TEXT_OPTIONS }
@@ -222,7 +234,8 @@ export default defineComponent({
       pending,
       canvasRef,
       renderOptions,
-      WaferType
+      WaferType,
+      imageFilters
     };
   }
 });

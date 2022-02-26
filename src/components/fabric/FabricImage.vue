@@ -24,6 +24,10 @@ export default defineComponent({
       type: Object as PropType<fabric.IImageOptions>,
       required: false,
       default: () => ({})
+    },
+    filters: {
+      type: Array as PropType<fabric.IBaseFilter[]>,
+      required: true
     }
   },
   setup(props) {
@@ -64,6 +68,15 @@ export default defineComponent({
       }
     );
 
+    const applyFilters = () => {
+      if (!image.value) return;
+
+      console.log("apply", props.filters);
+      image.value.filters = props.filters;
+      image.value.applyFilters();
+      canvas.value?.renderAll();
+    };
+
     const setOptions = () => {
       image.value?.set(props.options);
       canvas.value?.renderAll();
@@ -71,6 +84,7 @@ export default defineComponent({
 
     onMounted(() => initializeImage());
     watch(() => props.options, setOptions, { deep: true });
+    watch(() => props.filters, applyFilters, { deep: true });
 
     return () => null;
   }
