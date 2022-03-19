@@ -21,8 +21,8 @@ export default defineComponent({
     label: {
       type: String,
       required: false,
-      default: "Choose a file…"
-    }
-  }
+      default: "Choose a file…",
+    },
+  },
 });
 </script>

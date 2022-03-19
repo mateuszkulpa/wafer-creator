@@ -20,14 +20,14 @@ export default defineComponent({
     label: {
       type: String as PropType<string>,
       required: false,
-      default: ""
+      default: "",
     },
     modelValue: {
       type: [String, Number] as PropType<string | number | null>,
       required: false,
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 });
 </script>
 

@@ -65,7 +65,7 @@ export default defineComponent({
       emit("update:filters", [
         new fabric.Image.filters.Brightness({ brightness: brightness.value }),
         new fabric.Image.filters.Saturation({ saturation: saturation.value }),
-        new fabric.Image.filters.Contrast({ contrast: contrast.value })
+        new fabric.Image.filters.Contrast({ contrast: contrast.value }),
       ]);
     });
 
@@ -73,9 +73,9 @@ export default defineComponent({
       brightness,
       saturation,
       contrast,
-      resetFilters
+      resetFilters,
     };
-  }
+  },
 });
 </script>
 

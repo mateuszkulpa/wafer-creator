@@ -6,7 +6,7 @@ const loadFont = (font: string) => {
 };
 const googleFontsHref = () =>
   `https://fonts.googleapis.com/css2?${FONTS.map(
-    f => `family=${f.replace(" ", "+")}`
+    (f) => `family=${f.replace(" ", "+")}`
   ).join("&")}&display=swap`;
 
 export function loadAllFonts() {
@@ -15,5 +15,5 @@ export function loadAllFonts() {
 
   link.rel = "stylesheet";
   document.head.appendChild(link);
-  return Promise.all(FONTS.map(x => loadFont(x)));
+  return Promise.all(FONTS.map((x) => loadFont(x)));
 }

@@ -1,4 +1,5 @@
-ren<template>
+ren
+<template>
   <canvas ref="canvasRef">
     <slot v-if="canvas" />
   </canvas>
@@ -14,8 +15,8 @@ export default defineComponent({
     options: {
       type: Object as PropType<fabric.ICanvasOptions>,
       required: false,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   setup(props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -26,7 +27,7 @@ export default defineComponent({
       canvas.value = new fabric.Canvas(canvasRef.value, props.options);
     });
 
-    watch(props.options, newOptions => {
+    watch(props.options, (newOptions) => {
       if (canvas.value === null) return;
 
       if (newOptions.width !== undefined)
@@ -36,7 +37,7 @@ export default defineComponent({
     });
 
     const toDataImage = () => {
-      return new Promise<HTMLImageElement>(resolve => {
+      return new Promise<HTMLImageElement>((resolve) => {
         if (!canvas.value)
           throw Error(
             "Cannot generate image result, canvas is not initialized"
@@ -51,8 +52,8 @@ export default defineComponent({
     return {
       canvasRef,
       canvas,
-      toDataImage
+      toDataImage,
     };
-  }
+  },
 });
 </script>
