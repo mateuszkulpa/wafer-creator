@@ -1,7 +1,11 @@
 <template>
   <div class="filters">
     <label for="brightness">
-      brightness {{ brightness.toFixed(2) }} <br />
+      <div class="is-flex is-justify-content-space-between">
+        <div>brightness</div>
+        <div class="is-family-monospace">{{ brightness.toFixed(2) }}</div>
+      </div>
+
       <input
         type="range"
         id="brightness"
@@ -14,7 +18,11 @@
     </label>
 
     <label for="saturation">
-      saturation {{ saturation.toFixed(2) }} <br />
+      <div class="is-flex is-justify-content-space-between">
+        <div>saturation</div>
+        <div class="is-family-monospace">{{ saturation.toFixed(2) }}</div>
+      </div>
+
       <input
         type="range"
         id="saturation"
@@ -27,7 +35,11 @@
     </label>
 
     <label for="contrast">
-      contrast {{ contrast.toFixed(2) }} <br />
+      <div class="is-flex is-justify-content-space-between">
+        <div>contrast</div>
+        <div class="is-family-monospace">{{ contrast.toFixed(2) }}</div>
+      </div>
+
       <input
         type="range"
         id="contrast"
