@@ -10,41 +10,46 @@
           label="Tekst"
           type="text"
           v-model="innerOptions[index].text"
+          variant="outlined"
         />
       </v-col>
-      <v-col cols="6">
+      <v-col cols="6" class="mt-2">
         <v-text-field
           label="Wypełnienie"
           type="color"
           v-model="innerOptions[index].fill"
+          variant="outlined"
         />
       </v-col>
-      <v-col cols="6">
+      <v-col cols="6" class="mt-2">
         <v-text-field
           label="Kontur"
           type="color"
           v-model="innerOptions[index].stroke"
+          variant="outlined"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="4" class="mt-2">
         <v-text-field
           class="textboxes-list__input--small"
           density="comfortable"
           label="Rozmiar"
           type="number"
           v-model.number="innerOptions[index].fontSize"
+          variant="outlined"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="4" class="mt-2">
         <v-text-field
           density="comfortable"
           class="textboxes-list__input--small"
           label="Kontur"
           type="number"
           v-model.number="innerOptions[index].strokeWidth"
+          variant="outlined"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="4" class="mt-2">
         <v-text-field
           density="comfortable"
           class="textboxes-list__input--small"
@@ -54,18 +59,20 @@
           max="3"
           step="0.1"
           v-model.number="innerOptions[index].lineHeight"
+          variant="outlined"
         />
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="mt-2">
         <v-select
           dense
           label="Czcionka"
           v-model="innerOptions[index].fontFamily"
           :items="FONTS"
+          variant="outlined"
         ></v-select>
       </v-col>
-      <v-col cols="12">
-        <div class="textboxes-list__buttons mt-2">
+      <v-col cols="12" class="mt-2">
+        <div class="textboxes-list__buttons">
           <v-btn
             variant="outlined"
             @click="() => onUppercaseText(innerOptions[index])"
@@ -85,6 +92,7 @@
             <i class="fas fa-copy"></i>
           </v-btn>
           <v-btn
+            :disabled="index === 0"
             variant="outlined"
             color="error"
             @click="() => onRemoveText(innerOptions[index])"
@@ -104,36 +112,34 @@
 import { PropType, ref, watch } from "vue";
 import fabric from "@/fabric";
 import { FONTS, DEFAULT_TEXT_OPTIONS } from "@/constants";
+import { cloneDeep } from "lodash";
 
 const props = defineProps({
-  options: {
+  modelValue: {
     type: Array as PropType<fabric.ITextboxOptions[]>,
     required: true,
   },
 });
-const emit = defineEmits(["update:options"]);
-const innerOptions = ref(props.options);
+const emit = defineEmits(["update:modelValue"]);
+const innerOptions = ref(cloneDeep(props.modelValue));
 
 watch(
   innerOptions,
   () => {
-    emit("update:options", innerOptions);
+    emit("update:modelValue", innerOptions.value);
   },
   { deep: true }
 );
-
 const onAddText = () => {
   innerOptions.value.push({ ...DEFAULT_TEXT_OPTIONS });
 };
 
 const onRemoveText = (item: fabric.ITextboxOptions) => {
   innerOptions.value = innerOptions.value.filter((x) => x !== item);
-  emit("update:options", innerOptions);
 };
 
 const onDuplicateText = (item: fabric.ITextboxOptions) => {
   innerOptions.value.push({ ...item });
-  emit("update:options", innerOptions);
 };
 
 const onUppercaseText = (item: fabric.ITextboxOptions) => {
@@ -153,9 +159,13 @@ const onLowercaseText = (item: fabric.ITextboxOptions) => {
     grid-template-columns: repeat(5, 1fr);
   }
 
+  // BETA fix :(
   &__input--small {
     .v-field__input {
       max-width: 124px;
+      input {
+        max-width: 98px;
+      }
     }
   }
 }

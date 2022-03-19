@@ -1,5 +1,5 @@
 <template>
-  <v-app style="z-index: 0" full-height>
+  <v-app class="app" style="z-index: 0" full-height>
     <v-navigation-drawer width="300" permanent>
       <v-list>
         <v-list-item class="my-4">
@@ -18,7 +18,7 @@
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item class="my-4">
-          <div style="width: 100%">
+          <div class="app__summary">
             <v-text-field
               class="mb-4"
               v-if="
@@ -30,6 +30,7 @@
               min="100"
               v-model.number="renderOptions.radius"
               type="number"
+              variant="outlined"
             />
 
             <v-text-field
@@ -43,6 +44,7 @@
               max="50"
               v-model.number="renderOptions.marginTop"
               type="number"
+              variant="outlined"
             />
 
             <v-text-field
@@ -56,13 +58,15 @@
               min="0"
               max="30"
               v-model.number="renderOptions.margin"
+              variant="outlined"
             />
 
             <v-btn
+              class="app__generate-btn"
               variant="outlined"
               :disabled="pending"
               @click="generatePdf"
-              style="width: 100%"
+              size="large"
             >
               Generuj PDF
             </v-btn>
@@ -71,7 +75,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-navigation-drawer width="420" permanent position="right">
-      <textboxes-list v-model:options="textsOptions" />
+      <textboxes-list v-model="textsOptions" />
     </v-navigation-drawer>
     <v-main>
       <fabric-canvas
@@ -113,6 +117,7 @@ import {
 } from "@/constants";
 import { WaferType } from "@/enums";
 import PdfRenderer from "@/pdfRenderer";
+fabric.textureSize = 4096;
 
 const getSizeByWaferType = (
   type: WaferType
@@ -211,10 +216,19 @@ const generatePdf = async () => {
 </script>
 
 <style lang="scss">
-.v-main__wrap {
-  min-height: 100vh;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
+.app {
+  &__summary {
+    width: 100%;
+  }
+  &__generate-btn {
+    width: 100%;
+  }
+
+  .v-main__wrap {
+    min-height: 100vh;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

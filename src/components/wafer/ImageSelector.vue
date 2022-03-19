@@ -3,6 +3,7 @@
     accept="image/*"
     :label="label"
     @change.stop="onUpload"
+    variant="outlined"
   ></v-file-input>
 </template>
 
@@ -20,7 +21,6 @@ defineProps({
 const emit = defineEmits(["selected"]);
 
 const onUpload = async (event: Event) => {
-  console.log("change");
   const target = event.target as HTMLInputElement;
   if (target.files === null || target.files.length === 0) return;
   const file = target.files[0];
