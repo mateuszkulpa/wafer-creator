@@ -208,7 +208,7 @@ export default defineComponent({
             break;
           case WaferType.CircleWithMiniatures:
             renderer.addCircleImage(canvasImage, renderOptions);
-            renderer.addMinatures(image.value as HTMLImageElement);
+            renderer.addMinatures(canvasImage);
             break;
           case WaferType.RectangleLandsape:
             renderer.addRectangleLandscapeImage(canvasImage, renderOptions);
