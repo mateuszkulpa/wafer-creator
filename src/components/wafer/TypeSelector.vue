@@ -1,61 +1,45 @@
 <template>
-  <div class="control">
-    <label class="is-block">
-      <input
-        v-model="innerValue"
-        type="radio"
-        name="wafer-type"
-        :value="WaferType.Circle"
-      />
-      Koło
-    </label>
-    <label class="is-block">
-      <input
-        v-model="innerValue"
-        type="radio"
-        name="wafer-type"
-        :value="WaferType.CircleWithMiniatures"
-      />
-      Koło z miniaturkami
-    </label>
-    <label class="is-block">
-      <input
-        v-model="innerValue"
-        type="radio"
-        name="wafer-type"
-        :value="WaferType.RectangleLandsape"
-      />
-      A4 - poziomo
-    </label>
-    <label class="is-block">
-      <input
-        v-model="innerValue"
-        type="radio"
-        name="wafer-type"
-        :value="WaferType.RectanglePortrait"
-      />
-      A4 - pionowo
-    </label>
-  </div>
+  <v-radio-group v-model="innerValue">
+    <v-radio
+      v-for="option in options"
+      :key="option.value"
+      :label="option.label"
+      :value="option.value"
+    ></v-radio>
+  </v-radio-group>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from "vue";
+<script lang="ts" setup>
+import { PropType, ref, watch } from "vue";
 import { WaferType } from "@/enums";
-export default defineComponent({
-  props: {
-    modelValue: {
-      type: Number as PropType<WaferType>,
-      required: true,
-    },
-  },
-  setup(props, { emit }) {
-    const innerValue = ref(props.modelValue);
-    watch(innerValue, () => emit("update:modelValue", innerValue.value));
-    return {
-      innerValue,
-      WaferType,
-    };
+
+const props = defineProps({
+  modelValue: {
+    type: Number as PropType<WaferType>,
+    required: true,
   },
 });
+
+const emit = defineEmits(["update:modelValue"]);
+const innerValue = ref(props.modelValue);
+watch(innerValue, () => emit("update:modelValue", innerValue.value));
+
+const options = [
+  {
+    label: "Koło",
+    value: WaferType.Circle,
+  },
+  {
+    label: " Koło z miniaturkami",
+    value: WaferType.CircleWithMiniatures,
+  },
+  {
+    label: "A4 - poziomo",
+    value: WaferType.RectangleLandsape,
+  },
+  {
+    label: "A4 - pionowo",
+    value: WaferType.RectanglePortrait,
+  },
+];
 </script>

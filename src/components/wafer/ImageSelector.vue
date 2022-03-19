@@ -1,36 +1,30 @@
 <template>
-  <div>
-    <input-file @change.stop="onUpload" accept="image/*" :label="label" />
-  </div>
+  <v-file-input
+    accept="image/*"
+    :label="label"
+    @change.stop="onUpload"
+  ></v-file-input>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import { getImageByFile } from "@/utils/image";
-import InputFile from "@/components/forms/InputFile.vue";
 
-export default defineComponent({
-  components: {
-    InputFile,
-  },
-  props: {
-    label: {
-      type: String,
-      required: false,
-      default: "Wybierz zdjęcie",
-    },
-  },
-  setup(props, { emit }) {
-    const onUpload = async (event: Event) => {
-      const target = event.target as HTMLInputElement;
-      if (target.files === null || target.files.length === 0) return;
-      const file = target.files[0];
-      const imageElement = await getImageByFile(file);
-      emit("selected", imageElement);
-    };
-    return {
-      onUpload,
-    };
+defineProps({
+  label: {
+    type: String,
+    required: false,
+    default: "Wybierz zdjęcie",
   },
 });
+
+const emit = defineEmits(["selected"]);
+
+const onUpload = async (event: Event) => {
+  console.log("change");
+  const target = event.target as HTMLInputElement;
+  if (target.files === null || target.files.length === 0) return;
+  const file = target.files[0];
+  const imageElement = await getImageByFile(file);
+  emit("selected", imageElement);
+};
 </script>
