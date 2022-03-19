@@ -6,7 +6,7 @@ import {
   Ref,
   ref,
   watch,
-  onMounted
+  onMounted,
 } from "vue";
 import fabric from "@/fabric";
 import { FABRIC_CANVAS_SYMBOL } from "@/constants";
@@ -18,17 +18,17 @@ export default defineComponent({
         string | HTMLImageElement | HTMLVideoElement | undefined
       >,
       required: false,
-      default: undefined
+      default: undefined,
     },
     options: {
       type: Object as PropType<fabric.IImageOptions>,
       required: false,
-      default: () => ({})
+      default: () => ({}),
     },
     filters: {
       type: Array as PropType<fabric.IBaseFilter[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props) {
     const canvas = inject<Ref<fabric.Canvas | null>>(
@@ -87,6 +87,6 @@ export default defineComponent({
     watch(() => props.filters, applyFilters, { deep: true });
 
     return () => null;
-  }
+  },
 });
 </script>

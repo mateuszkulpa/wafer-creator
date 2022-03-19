@@ -55,8 +55,9 @@
                 :key="font"
                 :value="font"
                 :style="{ 'font-family': font }"
-                >{{ font }}</option
               >
+                {{ font }}
+              </option>
             </select>
           </div>
         </div>
@@ -105,8 +106,8 @@ export default defineComponent({
   props: {
     options: {
       type: Array as PropType<fabric.ITextboxOptions[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const innerOptions = ref(props.options);
@@ -124,7 +125,7 @@ export default defineComponent({
     };
 
     const onRemoveText = (item: fabric.ITextboxOptions) => {
-      innerOptions.value = innerOptions.value.filter(x => x !== item);
+      innerOptions.value = innerOptions.value.filter((x) => x !== item);
       emit("update:options", innerOptions);
     };
 
@@ -148,9 +149,9 @@ export default defineComponent({
       onDuplicateText,
       onUppercaseText,
       onLowercaseText,
-      FONTS
+      FONTS,
     };
-  }
+  },
 });
 </script>
 

@@ -22,7 +22,7 @@
           <input-base
             v-if="
               type === WaferType.Circle ||
-                type === WaferType.CircleWithMiniatures
+              type === WaferType.CircleWithMiniatures
             "
             label="Średnica"
             max="200"
@@ -34,7 +34,7 @@
           <input-base
             v-if="
               type === WaferType.Circle ||
-                type === WaferType.CircleWithMiniatures
+              type === WaferType.CircleWithMiniatures
             "
             label="Margines góra"
             min="5"
@@ -46,7 +46,7 @@
           <input-base
             v-if="
               type === WaferType.RectangleLandsape ||
-                type === WaferType.RectanglePortrait
+              type === WaferType.RectanglePortrait
             "
             label="Margines"
             type="number"
@@ -110,7 +110,7 @@ import fabric from "@/fabric";
 import {
   DEFAULT_TEXT_OPTIONS,
   DEFAULT_CANVAS_SIZE,
-  A4_SIZE_RATIO
+  A4_SIZE_RATIO,
 } from "@/constants";
 import { WaferType } from "@/enums";
 import PdfRenderer from "@/pdfRenderer";
@@ -124,10 +124,10 @@ const getSizeByWaferType = (
     [WaferType.Circle]: { width: shortestSide, height: shortestSide },
     [WaferType.CircleWithMiniatures]: {
       width: shortestSide,
-      height: shortestSide
+      height: shortestSide,
     },
     [WaferType.RectangleLandsape]: { width: longestSide, height: shortestSide },
-    [WaferType.RectanglePortrait]: { width: shortestSide, height: longestSide }
+    [WaferType.RectanglePortrait]: { width: shortestSide, height: longestSide },
   }[type];
 };
 
@@ -141,30 +141,30 @@ export default defineComponent({
     CropImageSelector,
     TypeSelector,
     InputBase,
-    Filters
+    Filters,
   },
   setup() {
     const canvasOptions = ref<fabric.ICanvasOptions>({
       width: DEFAULT_CANVAS_SIZE,
       height: DEFAULT_CANVAS_SIZE,
-      preserveObjectStacking: true
+      preserveObjectStacking: true,
     });
 
     const imageOptions = ref<fabric.IImageOptions>({
       width: DEFAULT_CANVAS_SIZE,
-      height: DEFAULT_CANVAS_SIZE
+      height: DEFAULT_CANVAS_SIZE,
     });
 
     const imageFilters = shallowRef([]);
 
     const textsOptions = ref<fabric.ITextboxOptions[]>([
-      { ...DEFAULT_TEXT_OPTIONS }
+      { ...DEFAULT_TEXT_OPTIONS },
     ]);
 
     const renderOptions = reactive({
       radius: 200,
       marginTop: 20,
-      margin: 5
+      margin: 5,
     });
 
     const image = ref<HTMLImageElement | null>(null);
@@ -185,7 +185,7 @@ export default defineComponent({
         scaleY: (canvasOptions.value.width || 0) / imageElement.width,
         width: imageElement.width,
         height: imageElement.height,
-        selectable: true
+        selectable: true,
       };
       image.value = imageElement;
     };
@@ -235,9 +235,9 @@ export default defineComponent({
       canvasRef,
       renderOptions,
       WaferType,
-      imageFilters
+      imageFilters,
     };
-  }
+  },
 });
 </script>
 

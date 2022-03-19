@@ -46,16 +46,16 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Number as PropType<WaferType>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const innerValue = ref(props.modelValue);
     watch(innerValue, () => emit("update:modelValue", innerValue.value));
     return {
       innerValue,
-      WaferType
+      WaferType,
     };
-  }
+  },
 });
 </script>

@@ -7,7 +7,7 @@ import {
   ref,
   watch,
   onMounted,
-  onUnmounted
+  onUnmounted,
 } from "vue";
 import fabric from "@/fabric";
 import { FABRIC_CANVAS_SYMBOL } from "@/constants";
@@ -17,8 +17,8 @@ export default defineComponent({
     options: {
       type: Object as PropType<fabric.ITextboxOptions>,
       required: false,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   setup(props, { emit }) {
     const canvas = inject<Ref<fabric.Canvas | null>>(
@@ -35,7 +35,7 @@ export default defineComponent({
         text: textbox.value?.text,
         width: textbox.value?.width,
         height: textbox.value?.height,
-        fontSize: textbox.value?.fontSize
+        fontSize: textbox.value?.fontSize,
       });
     };
     const initializeTextbox = () => {
@@ -66,6 +66,6 @@ export default defineComponent({
     watch(() => props.options, setOptions, { deep: true });
 
     return () => null;
-  }
+  },
 });
 </script>

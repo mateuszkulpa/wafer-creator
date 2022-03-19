@@ -24,8 +24,8 @@ export default defineComponent({
   props: {
     waferType: {
       type: Number as PropType<WaferType>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const modalOpened = ref(false);
@@ -40,23 +40,23 @@ export default defineComponent({
         [WaferType.Circle]: {
           width: BASE_CROP_SIZE,
           height: BASE_CROP_SIZE,
-          type: "circle"
+          type: "circle",
         },
         [WaferType.CircleWithMiniatures]: {
           width: BASE_CROP_SIZE,
           height: BASE_CROP_SIZE,
-          type: "circle"
+          type: "circle",
         },
         [WaferType.RectanglePortrait]: {
           width: BASE_CROP_SIZE,
           height: BASE_CROP_SIZE * A4_SIZE_RATIO,
-          type: undefined
+          type: undefined,
         },
         [WaferType.RectangleLandsape]: {
           width: BASE_CROP_SIZE * A4_SIZE_RATIO,
           height: BASE_CROP_SIZE,
-          type: undefined
-        }
+          type: undefined,
+        },
       };
       return all[type];
     };
@@ -66,7 +66,7 @@ export default defineComponent({
       if (!croppieRef.value) return;
       croppie = new Croppie(croppieRef.value, {
         boundary: { width: 1000, height: 1000 },
-        viewport: getViewportByWaferType(props.waferType)
+        viewport: getViewportByWaferType(props.waferType),
       });
     };
     onMounted(() => {
@@ -80,18 +80,18 @@ export default defineComponent({
       modalOpened.value = true;
       croppie.bind({
         url: image.src,
-        zoom: 0
+        zoom: 0,
       });
     };
 
     const save = async () => {
       if (!croppie) return;
       const result = await croppie.result({
-        type: "base64"
+        type: "base64",
       });
       const image = new Image();
       image.src = result;
-      image.onload = function() {
+      image.onload = function () {
         emit("selected", image);
         modalOpened.value = false;
       };
@@ -101,9 +101,9 @@ export default defineComponent({
       modalOpened,
       croppieRef,
       onImageSelected,
-      save
+      save,
     };
-  }
+  },
 });
 </script>
 

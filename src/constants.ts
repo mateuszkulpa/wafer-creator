@@ -36,7 +36,7 @@ const FONTS = [
   "Cookie",
   "Dancing Script",
   "Parisienne",
-  "Shrikhand"
+  "Shrikhand",
 ];
 
 const DEFAULT_TEXT_OPTIONS: fabric.ITextboxOptions = {
@@ -51,7 +51,7 @@ const DEFAULT_TEXT_OPTIONS: fabric.ITextboxOptions = {
   textAlign: "center",
   width: DEFAULT_CANVAS_SIZE * 0.5,
   top: DEFAULT_CANVAS_SIZE * 0.75,
-  left: DEFAULT_CANVAS_SIZE * 0.25
+  left: DEFAULT_CANVAS_SIZE * 0.25,
 };
 
 export {
@@ -60,5 +60,5 @@ export {
   DEFAULT_TEXT_OPTIONS,
   DEFAULT_FONT,
   A4_SIZE_RATIO,
-  FONTS
+  FONTS,
 };

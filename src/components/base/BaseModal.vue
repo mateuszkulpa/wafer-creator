@@ -32,12 +32,12 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Boolean,
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>

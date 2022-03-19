@@ -11,14 +11,14 @@ import InputFile from "@/components/forms/InputFile.vue";
 
 export default defineComponent({
   components: {
-    InputFile
+    InputFile,
   },
   props: {
     label: {
       type: String,
       required: false,
-      default: "Wybierz zdjęcie"
-    }
+      default: "Wybierz zdjęcie",
+    },
   },
   setup(props, { emit }) {
     const onUpload = async (event: Event) => {
@@ -29,8 +29,8 @@ export default defineComponent({
       emit("selected", imageElement);
     };
     return {
-      onUpload
+      onUpload,
     };
-  }
+  },
 });
 </script>
