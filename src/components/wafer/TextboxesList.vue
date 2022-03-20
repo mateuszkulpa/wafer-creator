@@ -92,19 +92,26 @@
             <i class="fas fa-copy"></i>
           </v-btn>
           <v-btn
-            :disabled="index === 0"
             variant="outlined"
             color="error"
             @click="() => onRemoveText(innerOptions[index])"
           >
             <i class="fas fa-trash"></i>
           </v-btn>
-          <v-btn variant="outlined" color="primary" @click="onAddText">
-            <i class="fas fa-plus"></i>
-          </v-btn>
         </div>
       </v-col>
     </v-row>
+  </v-container>
+
+  <v-container>
+    <v-btn
+      class="textboxes-list__add-button"
+      variant="outlined"
+      size="large"
+      @click="onAddText"
+    >
+      <i class="fas fa-plus"></i>
+    </v-btn>
   </v-container>
 </template>
 
@@ -156,7 +163,11 @@ const onLowercaseText = (item: fabric.ITextboxOptions) => {
   &__buttons {
     display: grid;
     grid-column-gap: 0.5rem;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &__add-button {
+    width: 100%;
   }
 
   // BETA fix :(
