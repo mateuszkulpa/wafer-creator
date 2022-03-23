@@ -71,7 +71,6 @@ export default defineComponent({
     const applyFilters = () => {
       if (!image.value) return;
 
-      console.log("apply", props.filters);
       image.value.filters = props.filters;
       image.value.applyFilters();
       canvas.value?.renderAll();

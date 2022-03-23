@@ -1,2 +1,7 @@
-@import "variables";
-@import "~bulma";
+.v-input__details {
+  display: none !important;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}

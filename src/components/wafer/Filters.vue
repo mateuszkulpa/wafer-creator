@@ -1,99 +1,93 @@
 <template>
   <div class="filters">
-    <label for="brightness">
-      <div class="is-flex is-justify-content-space-between">
-        <div>brightness</div>
-        <div class="is-family-monospace">{{ brightness.toFixed(2) }}</div>
-      </div>
+    <div class="filters__caption text-caption">
+      brightness
+      <div class="filters__divider"></div>
+      {{ brightness }}
+    </div>
+    <v-slider
+      v-model="brightness"
+      min="-1"
+      max="1"
+      step="0.01"
+      class="filters__input"
+    ></v-slider>
 
-      <input
-        type="range"
-        id="brightness"
-        class="filters__input"
-        v-model.number="brightness"
-        min="-1"
-        max="1"
-        step="0.01"
-      />
-    </label>
+    <div class="filters__caption text-caption">
+      saturation
+      <div class="filters__divider"></div>
+      {{ saturation }}
+    </div>
+    <v-slider
+      v-model="saturation"
+      min="-1"
+      max="1"
+      step="0.01"
+      class="filters__input"
+    ></v-slider>
 
-    <label for="saturation">
-      <div class="is-flex is-justify-content-space-between">
-        <div>saturation</div>
-        <div class="is-family-monospace">{{ saturation.toFixed(2) }}</div>
-      </div>
+    <div class="filters__caption text-caption">
+      contrast
+      <div class="filters__divider"></div>
+      {{ contrast }}
+    </div>
+    <v-slider
+      v-model="contrast"
+      min="-1"
+      max="1"
+      step="0.01"
+      class="filters__input"
+    ></v-slider>
 
-      <input
-        type="range"
-        id="saturation"
-        class="filters__input"
-        v-model.number="saturation"
-        min="-1"
-        max="1"
-        step="0.01"
-      />
-    </label>
-
-    <label for="contrast">
-      <div class="is-flex is-justify-content-space-between">
-        <div>contrast</div>
-        <div class="is-family-monospace">{{ contrast.toFixed(2) }}</div>
-      </div>
-
-      <input
-        type="range"
-        id="contrast"
-        class="filters__input"
-        v-model.number="contrast"
-        min="-1"
-        max="1"
-        step="0.01"
-      />
-    </label>
-
-    <button class="button is-fullwidth mt-4" @click="resetFilters">
-      Reset
-    </button>
+    <v-btn @click="resetFilters" variant="outlined" class="filters__reset"
+      >Reset</v-btn
+    >
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watchEffect } from "@vue/runtime-core";
+<script lang="ts" setup>
+import { ref, watchEffect } from "@vue/runtime-core";
 import fabric from "@/fabric";
 
-export default defineComponent({
-  setup(_, { emit }) {
-    const brightness = ref(0);
-    const saturation = ref(0);
-    const contrast = ref(0);
+const emit = defineEmits(["update:filters"]);
 
-    const resetFilters = () => {
-      brightness.value = 0;
-      saturation.value = 0;
-      contrast.value = 0;
-    };
+const brightness = ref(0);
+const saturation = ref(0);
+const contrast = ref(0);
 
-    watchEffect(() => {
-      emit("update:filters", [
-        new fabric.Image.filters.Brightness({ brightness: brightness.value }),
-        new fabric.Image.filters.Saturation({ saturation: saturation.value }),
-        new fabric.Image.filters.Contrast({ contrast: contrast.value }),
-      ]);
-    });
+const resetFilters = () => {
+  brightness.value = 0;
+  saturation.value = 0;
+  contrast.value = 0;
+};
 
-    return {
-      brightness,
-      saturation,
-      contrast,
-      resetFilters,
-    };
-  },
+watchEffect(() => {
+  emit("update:filters", [
+    new fabric.Image.filters.Brightness({ brightness: brightness.value }),
+    new fabric.Image.filters.Saturation({ saturation: saturation.value }),
+    new fabric.Image.filters.Contrast({ contrast: contrast.value }),
+  ]);
 });
 </script>
 
 <style lang="scss" scoped>
 .filters {
+  width: 100%;
+
   &__input {
+    margin: 0 !important;
+  }
+
+  &__caption {
+    display: flex;
+  }
+
+  &__divider {
+    flex-grow: 1;
+  }
+
+  &__reset {
+    margin-top: 1rem;
     width: 100%;
   }
 }
