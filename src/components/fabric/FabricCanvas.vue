@@ -34,6 +34,7 @@ export default defineComponent({
         canvas.value.setWidth(newOptions.width);
       if (newOptions.height !== undefined)
         canvas.value.setHeight(newOptions.height);
+      canvas.value.toDataURL();
     });
 
     const toDataImage = () => {
@@ -49,10 +50,17 @@ export default defineComponent({
       });
     };
 
+    const toDataUrl = () => {
+      if (!canvas.value)
+        throw Error("Cannot generate image result, canvas is not initialized");
+      return canvas.value.toDataURL();
+    };
+
     return {
       canvasRef,
       canvas,
       toDataImage,
+      toDataUrl,
     };
   },
 });

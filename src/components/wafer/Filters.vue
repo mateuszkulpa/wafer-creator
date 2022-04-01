@@ -46,10 +46,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from "@vue/runtime-core";
+import { ref, watchEffect, PropType, watch } from "vue";
 import fabric from "@/fabric";
 
 const emit = defineEmits(["update:filters"]);
+const props = defineProps({
+  filters: {
+    type: Array as PropType<fabric.IBaseFilter[]>,
+    required: true,
+  },
+});
 
 const brightness = ref(0);
 const saturation = ref(0);
@@ -68,6 +74,21 @@ watchEffect(() => {
     new fabric.Image.filters.Contrast({ contrast: contrast.value }),
   ]);
 });
+
+watch(
+  () => props.filters,
+  (newFilters) => {
+    const filterObjects = newFilters.map((f) => f.toObject());
+    console.log(filterObjects);
+    brightness.value =
+      filterObjects.find((f) => f.type === "Brightness")?.brightness ?? 0;
+    saturation.value =
+      filterObjects.find((f) => f.type === "Saturation")?.saturation ?? 0;
+    contrast.value =
+      filterObjects.find((f) => f.type === "Contrast")?.contrast ?? 0;
+  },
+  { deep: true }
+);
 </script>
 
 <style lang="scss" scoped>

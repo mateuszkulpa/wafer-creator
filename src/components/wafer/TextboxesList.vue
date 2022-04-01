@@ -131,6 +131,13 @@ const emit = defineEmits(["update:modelValue"]);
 const innerOptions = ref(cloneDeep(props.modelValue));
 
 watch(
+  () => props.modelValue,
+  () => {
+    innerOptions.value = cloneDeep(props.modelValue);
+  }
+);
+
+watch(
   innerOptions,
   () => {
     emit("update:modelValue", innerOptions.value);
