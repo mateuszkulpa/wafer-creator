@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef, watch } from "vue";
+import { ref, shallowRef, watch, watchEffect } from "vue";
 import FabricCanvas from "@/components/fabric/FabricCanvas.vue";
 import FabricTextbox from "@/components/fabric/FabricTextbox.vue";
 import FabricImage from "@/components/fabric/FabricImage.vue";

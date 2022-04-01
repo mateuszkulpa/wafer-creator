@@ -65,6 +65,7 @@ export default defineComponent({
           image.value?.setSrc(props.image);
         }
         canvas.value?.renderAll();
+        applyFilters();
       }
     );
 
@@ -83,7 +84,7 @@ export default defineComponent({
 
     onMounted(() => initializeImage());
     watch(() => props.options, setOptions, { deep: true });
-    watch(() => props.filters, applyFilters, { deep: true });
+    watch(() => props.filters, applyFilters);
 
     return () => null;
   },

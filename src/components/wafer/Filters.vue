@@ -67,7 +67,7 @@ const resetFilters = () => {
   contrast.value = 0;
 };
 
-watchEffect(() => {
+watch([brightness, saturation, contrast], () => {
   emit("update:filters", [
     new fabric.Image.filters.Brightness({ brightness: brightness.value }),
     new fabric.Image.filters.Saturation({ saturation: saturation.value }),
@@ -79,15 +79,17 @@ watch(
   () => props.filters,
   (newFilters) => {
     const filterObjects = newFilters.map((f) => f.toObject());
-    console.log(filterObjects);
-    brightness.value =
+    const newBrightness =
       filterObjects.find((f) => f.type === "Brightness")?.brightness ?? 0;
-    saturation.value =
+    const newSaturation =
       filterObjects.find((f) => f.type === "Saturation")?.saturation ?? 0;
-    contrast.value =
+    const newContrast =
       filterObjects.find((f) => f.type === "Contrast")?.contrast ?? 0;
-  },
-  { deep: true }
+
+    if (brightness.value !== newBrightness) brightness.value = newBrightness;
+    if (saturation.value !== newSaturation) saturation.value = newSaturation;
+    if (contrast.value !== newContrast) contrast.value = newContrast;
+  }
 );
 </script>
 
