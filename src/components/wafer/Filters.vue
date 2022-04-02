@@ -48,6 +48,7 @@
 <script lang="ts" setup>
 import { ref, PropType, watch, computed } from "vue";
 import fabric from "@/fabric";
+import equal from "fast-deep-equal";
 
 const emit = defineEmits(["update:filters"]);
 const props = defineProps({
@@ -81,8 +82,7 @@ watch(
   () => props.filters,
   (newFilters) => {
     const filterObjects = newFilters.map((f) => f.toObject());
-    if (JSON.stringify(filterObjects) === JSON.stringify(computedFilters.value))
-      return;
+    if (equal(filterObjects, computedFilters.value)) return;
 
     brightness.value =
       filterObjects.find((f) => f.type === "Brightness")?.brightness ?? 0;
