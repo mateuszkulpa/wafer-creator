@@ -5,6 +5,7 @@ export default interface Project {
   name: string;
   type: WaferType;
   textsOptions: fabric.ITextboxOptions[];
+  imageOptions: fabric.IImageOptions;
   renderOptions: {
     radius: number;
     marginTop: number;

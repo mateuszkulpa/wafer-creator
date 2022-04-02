@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef, watch, watchEffect } from "vue";
+import { ref, shallowRef, watch } from "vue";
 import FabricCanvas from "@/components/fabric/FabricCanvas.vue";
 import FabricTextbox from "@/components/fabric/FabricTextbox.vue";
 import FabricImage from "@/components/fabric/FabricImage.vue";
@@ -284,11 +284,12 @@ const restoreProject = async (project: Project) => {
   textsOptions.value = project.textsOptions;
   renderOptions.value = project.renderOptions;
   canvasOptions.value = project.canvasOptions;
+  imageOptions.value = project.imageOptions;
   imageFilters.value = project.filters.map((f) => filtersDict[f.type](f));
   const newImage = new Image();
   newImage.src = project.image;
   newImage.onload = () => {
-    onImageSelected(newImage);
+    image.value = newImage;
   };
   document.body.appendChild(newImage);
 };

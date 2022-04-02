@@ -120,7 +120,7 @@ import { PropType, ref, watch } from "vue";
 import fabric from "@/fabric";
 import { FONTS, DEFAULT_TEXT_OPTIONS } from "@/constants";
 import { cloneDeep } from "lodash";
-
+import equal from "fast-deep-equal";
 const props = defineProps({
   modelValue: {
     type: Array as PropType<fabric.ITextboxOptions[]>,
@@ -133,6 +133,7 @@ const innerOptions = ref(cloneDeep(props.modelValue));
 watch(
   () => props.modelValue,
   () => {
+    if (equal(innerOptions.value, props.modelValue)) return;
     innerOptions.value = cloneDeep(props.modelValue);
   }
 );

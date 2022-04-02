@@ -30,13 +30,26 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ["update:options"],
+  setup(props, { emit }) {
     const canvas = inject<Ref<fabric.Canvas | null>>(
       FABRIC_CANVAS_SYMBOL,
       ref<fabric.Canvas | null>(null)
     );
 
     const image = ref<fabric.Image | null>(null);
+
+    const onImageChanged = () => {
+      emit("update:options", {
+        ...props.options,
+        scaleX: image.value?.scaleX,
+        scaleY: image.value?.scaleY,
+        width: image.value?.width,
+        height: image.value?.height,
+        top: image.value?.top,
+        left: image.value?.left,
+      });
+    };
 
     const initializeImage = () => {
       if (canvas.value === null) {
@@ -49,6 +62,9 @@ export default defineComponent({
         image.value = new fabric.Image(props.image, props.options);
         canvas.value?.add(image.value);
         canvas.value?.sendToBack(image.value);
+
+        image.value?.on("modified", onImageChanged);
+        image.value?.on("changed", onImageChanged);
       }
     };
 

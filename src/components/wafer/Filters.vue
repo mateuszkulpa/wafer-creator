@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect, PropType, watch } from "vue";
+import { ref, PropType, watch, computed } from "vue";
 import fabric from "@/fabric";
 
 const emit = defineEmits(["update:filters"]);
@@ -67,28 +67,29 @@ const resetFilters = () => {
   contrast.value = 0;
 };
 
-watch([brightness, saturation, contrast], () => {
-  emit("update:filters", [
-    new fabric.Image.filters.Brightness({ brightness: brightness.value }),
-    new fabric.Image.filters.Saturation({ saturation: saturation.value }),
-    new fabric.Image.filters.Contrast({ contrast: contrast.value }),
-  ]);
+const computedFilters = computed(() => [
+  new fabric.Image.filters.Brightness({ brightness: brightness.value }),
+  new fabric.Image.filters.Saturation({ saturation: saturation.value }),
+  new fabric.Image.filters.Contrast({ contrast: contrast.value }),
+]);
+
+watch(computedFilters, () => {
+  emit("update:filters", computedFilters.value);
 });
 
 watch(
   () => props.filters,
   (newFilters) => {
     const filterObjects = newFilters.map((f) => f.toObject());
-    const newBrightness =
-      filterObjects.find((f) => f.type === "Brightness")?.brightness ?? 0;
-    const newSaturation =
-      filterObjects.find((f) => f.type === "Saturation")?.saturation ?? 0;
-    const newContrast =
-      filterObjects.find((f) => f.type === "Contrast")?.contrast ?? 0;
+    if (JSON.stringify(filterObjects) === JSON.stringify(computedFilters.value))
+      return;
 
-    if (brightness.value !== newBrightness) brightness.value = newBrightness;
-    if (saturation.value !== newSaturation) saturation.value = newSaturation;
-    if (contrast.value !== newContrast) contrast.value = newContrast;
+    brightness.value =
+      filterObjects.find((f) => f.type === "Brightness")?.brightness ?? 0;
+    saturation.value =
+      filterObjects.find((f) => f.type === "Saturation")?.saturation ?? 0;
+    contrast.value =
+      filterObjects.find((f) => f.type === "Contrast")?.contrast ?? 0;
   }
 );
 </script>
