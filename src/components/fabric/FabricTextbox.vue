@@ -36,6 +36,9 @@ export default defineComponent({
         width: textbox.value?.width,
         height: textbox.value?.height,
         fontSize: textbox.value?.fontSize,
+        scaleX: textbox.value?.scaleX,
+        scaleY: textbox.value?.scaleY,
+        angle: textbox.value?.angle,
       });
     };
     const initializeTextbox = () => {

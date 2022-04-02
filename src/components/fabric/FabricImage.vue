@@ -48,6 +48,7 @@ export default defineComponent({
         height: image.value?.height,
         top: image.value?.top,
         left: image.value?.left,
+        angle: image.value?.angle,
       });
     };
 
