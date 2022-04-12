@@ -10,7 +10,7 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "croppie": "^2.6.5",
-    "fabric": "^4.2.0",
+    "fabric": "^4.6.0",
     "fast-deep-equal": "^3.1.3",
     "fontfaceobserver": "^2.1.0",
     "jspdf": "^2.1.1",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@mdi/font": "^6.5.95",
     "@types/croppie": "^2.5.5",
-    "@types/fabric": "^3.6.8",
+    "@types/fabric": "^4.5.7",
     "@types/fontfaceobserver": "0.0.6",
     "@types/lodash": "^4.14.162",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
