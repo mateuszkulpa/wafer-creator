@@ -1,5 +1,5 @@
 <template>
-  <v-dialog fullscreen v-model="dialogOpened">
+  <v-dialog fullscreen v-model="dialogOpened" scroll-strategy="reposition">
     <v-card>
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="dialogOpened = false">
