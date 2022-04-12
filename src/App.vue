@@ -290,6 +290,7 @@ const restoreProject = async (project: Project) => {
   newImage.src = project.image;
   newImage.onload = () => {
     image.value = newImage;
+    document.body.removeChild(newImage);
   };
   document.body.appendChild(newImage);
 };
