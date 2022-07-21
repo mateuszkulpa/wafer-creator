@@ -153,7 +153,7 @@ const textsOptions = ref<fabric.ITextboxOptions[]>([
 ]);
 
 const renderOptions = reactive({
-  radius: 200,
+  radius: 203,
   marginTop: 12,
   margin: 5,
 });
