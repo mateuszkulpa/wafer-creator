@@ -61,7 +61,7 @@ class PdfRenderer {
         image,
         "PNG",
         5 + (MINATURE_SIZE + 20 / 3) * i,
-        PAGE_A4_LONGEST_SIDE - MINATURE_SIZE - 10,
+        PAGE_A4_LONGEST_SIDE - MINATURE_SIZE - 25,
         MINATURE_SIZE,
         MINATURE_SIZE
       );

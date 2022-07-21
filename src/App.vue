@@ -167,8 +167,8 @@ const textsOptions = ref<fabric.ITextboxOptions[]>([
 ]);
 
 const renderOptions = ref({
-  radius: 200,
-  marginTop: 20,
+  radius: 203,
+  marginTop: 12,
   margin: 5,
 });
 
