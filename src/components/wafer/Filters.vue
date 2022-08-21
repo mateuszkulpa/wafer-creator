@@ -46,10 +46,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from "@vue/runtime-core";
+import { ref, PropType, watch, computed } from "vue";
 import fabric from "@/fabric";
+import equal from "fast-deep-equal";
 
 const emit = defineEmits(["update:filters"]);
+const props = defineProps({
+  filters: {
+    type: Array as PropType<fabric.IBaseFilter[]>,
+    required: true,
+  },
+});
 
 const brightness = ref(0);
 const saturation = ref(0);
@@ -61,13 +68,30 @@ const resetFilters = () => {
   contrast.value = 0;
 };
 
-watchEffect(() => {
-  emit("update:filters", [
-    new fabric.Image.filters.Brightness({ brightness: brightness.value }),
-    new fabric.Image.filters.Saturation({ saturation: saturation.value }),
-    new fabric.Image.filters.Contrast({ contrast: contrast.value }),
-  ]);
+const computedFilters = computed(() => [
+  new fabric.Image.filters.Brightness({ brightness: brightness.value }),
+  new fabric.Image.filters.Saturation({ saturation: saturation.value }),
+  new fabric.Image.filters.Contrast({ contrast: contrast.value }),
+]);
+
+watch(computedFilters, () => {
+  emit("update:filters", computedFilters.value);
 });
+
+watch(
+  () => props.filters,
+  (newFilters) => {
+    const filterObjects = newFilters.map((f) => f.toObject());
+    if (equal(filterObjects, computedFilters.value)) return;
+
+    brightness.value =
+      filterObjects.find((f) => f.type === "Brightness")?.brightness ?? 0;
+    saturation.value =
+      filterObjects.find((f) => f.type === "Saturation")?.saturation ?? 0;
+    contrast.value =
+      filterObjects.find((f) => f.type === "Contrast")?.contrast ?? 0;
+  }
+);
 </script>
 
 <style lang="scss" scoped>
